@@ -1,0 +1,45 @@
+{% extends "course\basic.html" %} 
+
+{% block title %} 
+Blog Details 
+{% endblock title %} 
+
+{% block head %}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"/>
+
+{% endblock %} 
+
+{% block css %}
+
+.para-blog{ 
+    font-family: "Poppins"; 
+    color: #000;
+    font-size: 23px; 
+} 
+
+{% endblock css %} 
+
+{% load static %} 
+
+{% block body %}
+<img src="/media/{{blog.image}}" alt="" style=" max-height: 479px; min-width: 100%;" class="img-hero" >
+
+<div class="container">
+
+    <div class="title">
+
+<h2 class="display-1">{{blog.title}} </h2>
+
+    </div>
+
+    <p class="para-blog">
+
+        {{blog.body}}
+
+    </p>
+    
+</div>
+
+{% endblock body %}

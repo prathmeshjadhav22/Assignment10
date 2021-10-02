@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+      crossorigin="anonymous"
+    />
+    {% block head %} {% endblock head %}
+    <style>
+      span.custom-ar{
+        margin: 0 4.5px;
+        font-size: 20px;
+        font-weight: 800;
+      }
+      {% block css %}
+
+      {% endblock css %}
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Nibodh</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/course"
+                >Home</a
+              >
+            </li>
+              <a class="nav-link active" aria-current="page" href="/blog/"
+                >Blog</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/course/contactus">ContactUs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/course/list">Course List</a>
+            </li>
+            <li class="nav-item">
+              <!-- Button trigger modal -->
+              <button
+                type="button"
+                onclick="putDataInCartPopup()"
+                class="btn nav-link"
+                data-bs-toggle="modal"
+                data-bs-target="#cartPopup"
+              >
+                Cart(<span id="cartID"></span>)
+              </button>
+
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="cartPopup"
+                tabindex="-1"
+                aria-labelledby="cartPopupLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="cartPopupLabel">
+                        Cart Items
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <ul class="list-group" id="cart-items">
+                        <li
+                          class="list-group-item d-flex justify-content-between"
+                        >
+                          An item<span class="badge bg-primary">4</span>
+                        </li>
+                        <li
+                          class="list-group-item d-flex justify-content-between"
+                        >
+                          An item<span class="badge bg-primary">4</span>
+                        </li>
+                        <li
+                          class="list-group-item d-flex justify-content-between"
+                        >
+                          An item<span class="badge bg-primary">4</span>
+                        </li>
+                        <li
+                          class="list-group-item d-flex justify-content-between"
+                        >
+                          An item<span class="badge bg-primary">4</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="modal-footer">
+                      <form action="/course/checkout/" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="card-hidden" name="cartJson" />
+
+                        <button
+                          onclick="addHiddenVal()"
+                          type="submit"
+                          href=""
+                          class="btn btn-success"
+                        >
+                          Checkout
+                        </button>
+                      </form>
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <form class="d-flex">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <script>
+      const addHiddenVal = () => {
+        var input = document.getElementById("card-hidden");
+        // console.log(JSON.parse(localStorage.getItem("cart")));
+        // console.log(input);
+        input.value = localStorage.getItem("cart");
+      };
+
+      const updateCartButton = () => {
+        var value = JSON.parse(localStorage.getItem("cart"));
+
+        document.getElementById("cartID").innerHTML = value
+          ? Object.keys(value).length
+          : 0;
+      };
+
+      updateCartButton();
+
+      const addItem = (id) => {
+        console.log("itemAdd" + " " + id);
+        var cart = JSON.parse(localStorage.getItem("cart"));
+        cart[id] = { ...cart[id], value: cart[id].value + 1 };
+        localStorage.setItem("cart", JSON.stringify(cart));
+        putDataInCartPopup();
+        updateCartButton();
+      };
+      const removeItem = (id) => {
+        console.log("removeItem" + " " + id);
+        var cart = JSON.parse(localStorage.getItem("cart"));
+        cart[id] = { ...cart[id], value: cart[id].value - 1 };
+        var slug = cart[id].value;
+
+        if (slug <= 0) {
+          delete cart[id];
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        putDataInCartPopup();
+        updateCartButton();
+      };
+
+      const putDataInCartPopup = () => {
+        var cart = JSON.parse(localStorage.getItem("cart"));
+
+        var htmlStr = "";
+        addHiddenVal();
+
+        if (cart == null || Object.keys(cart).length === 0) {
+          htmlStr =
+            '<li class="list-group-item"><h3>You dont have anything in your cart. Please <a href="/course/list/">click here</a> to add items<h3/></li>';
+        } else {
+          // console.log(cart);
+          Object.keys(cart).map((item) => {
+            htmlStr =
+              htmlStr +
+              " " +
+              `<li class="list-group-item d-flex justify-content-between">${cart[item].name}<span class="d-flex"><span onclick="addItem(${item})"><span class="custom-ar">+</span></span><span class="badge bg-primary">${cart[item].value}</span><span onclick="removeItem(${item})"><span class="custom-ar">-</span></span></span></li>`;
+          });
+        }
+
+        // console.log(htmlStr);
+
+        document.getElementById("cart-items").innerHTML = htmlStr;
+      };
+    </script>
+
+    {% block body %}{% endblock body %}
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
+      integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

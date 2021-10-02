@@ -1,0 +1,69 @@
+{% extends "course\basic.html" %}
+
+{% load static %}
+
+{% block title %}
+ block title
+{% endblock title %}
+
+{% block css %}
+
+.img-hero{
+    max-height:60vh;
+    min-width:100vw;
+}
+{% endblock css %}
+
+{% block body %}
+
+{% if error == "null" %}
+
+<img src="\media\{{data.image}}" class="img-hero" alt="...">
+
+<div class="container">
+      <h1 class="display-1 text-center">
+      {{data.name}}
+      </h1>
+      <p class="display-4">
+        {{data.desc}}
+      </p>
+
+      <div class="text-center">
+      <button class="btn btn-primary" onclick="addtocart('{{data.id}}')">Add to cart</button>
+              
+    </div>
+</div>
+
+{% else %}
+<h1 class="display-1 text-danger text-center">{{error}}</h1>
+{% endif %}
+    
+<script>
+      const addtocart =(id)=>{
+        // console.log(id);
+        var cart = JSON.parse(localStorage.getItem("cart"))
+
+        if(cart)
+        {
+          if(cart[id]){
+            cart[id] = cart[id] + 1
+          }
+          else{
+            cart[id]=1
+          }
+        }
+
+        else{
+          cart={[id]:1}
+        }
+
+        localStorage.setItem("cart",JSON.stringify(cart))
+
+        var value = JSON.parse(localStorage.getItem("cart"));
+      console.log(value)
+      document.getElementById("cartID").innerHTML = Object.keys(value).length
+
+      }
+    </script>
+
+{% endblock body %}

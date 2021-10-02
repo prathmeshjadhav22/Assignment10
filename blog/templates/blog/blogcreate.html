@@ -1,0 +1,54 @@
+{% extends "course\basic.html" %}
+
+{% block title %}
+ Blog Create 
+{% endblock title %} 
+
+{% block css %} 
+
+{% endblock css %} 
+
+{% block body %}
+
+<div class="container" style="font-family: 'Times New Roman', Times, serif;">
+  <div class="row">
+    <h1 class="display-1">Create a new blog.</h1>
+
+    <div class="col-12">
+      <form enctype="multipart/form-data" action="/blog/blogcreate/" method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label for="name" class="form-label">Blog title</label>
+          <input type="text" class="form-control" id="name" name="title" />
+        </div>
+
+        <div class="form-floating mb-3">
+          <textarea
+            class="form-control"
+            placeholder="Leave a Problems here"
+            name="body"
+            id="floatingTextarea2"
+            style="height: 407px"
+          ></textarea>
+          <label for="floatingTextarea2">Description</label>
+        </div>
+
+        <div class="input-group mb-3">
+          <input
+            type="file"
+            name="image"
+            class="form-control"
+            id="inputGroupFile03"
+            aria-describedby="inputGroupFileAddon03"
+            aria-label="Upload"
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

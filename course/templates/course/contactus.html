@@ -1,0 +1,56 @@
+{% extends "course\basic.html" %}
+
+{% block title %}
+ block title
+{% endblock title %}
+
+{% block css %}
+.required {
+  color:red; 
+  font-weight:bold
+} 
+.human {margin: 0 0 0 12px}
+{% endblock css %}
+
+{% block body %}
+
+
+
+ <div class="container" style="font-family: 'Times New Roman', Times, serif;">
+    <div class="row">
+        <h1 class="diplay-1">
+            Contact Us
+        </h1>
+        <div class="col-12">
+            <form action="/course/contactsubmit/" method="POST">
+           {% csrf_token %}
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Email address</label>
+                  <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
+                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="name" class="form-label">Name</label>
+                  <input type="text" class="form-control" id="name" name="name">
+                </div>
+                <div class="mb-3">
+                  <label for="contactnumber" class="form-label">Contact Number</label>
+                  <input type="text" class="form-control" id="contactnumber" name="contact" aria-describedby="numHelp">
+                  <div id="numHelp" class="form-text">We'll never share your Contact number with anyone else.</div>
+                </div>
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" placeholder="Leave a Problems here" name="desc" id="floatingTextarea2" style="height: 100px"></textarea>
+                  <label for="floatingTextarea2">Description</label>
+                </div>
+                <div class="mb-3">
+                  <input class="form-control" type="file" name="screenshot" id="formFileMultiple" multiple>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+        </div>
+    </div>
+</div> 
+
+
+
+{% endblock body %}
