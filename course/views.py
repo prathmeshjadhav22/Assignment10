@@ -5,7 +5,7 @@ from . models import course , contact , order
 import json
 
 def Index(request):
-    return render(request,"course\home.html")
+    return render(request,"course/home.html")
 
 def List(request):
     # Courses = course.objects.all()
@@ -26,7 +26,7 @@ def List(request):
     params = {
         "data":Courses
     }    
-    return render(request,"course\index.html",params)
+    return render(request,"course/index.html",params)
     
 def Detail(request,id):
     # id = request.GET.get("id")
@@ -36,11 +36,11 @@ def Detail(request,id):
         params = {"data":{},"error":"Course not found"}
 
    
-    return render(request,"course\single.html",params)
+    return render(request,"course/single.html",params)
 
 def contactUs(request):
 
-    return render(request,"course\contactus.html")
+    return render(request,"course/contactus.html")
 
 def contactSubmit(request):
     email = request.POST.get("email")
@@ -72,7 +72,7 @@ def checkout(request):
         "totalPrice" : totalPrice,
         "data": currentCart
     }
-    return render(request,"course\checkout.html",params)
+    return render(request,"course/checkout.html",params)
 
 def submitcheckout(request):
     if(request.method=="POST"):
